@@ -49,32 +49,50 @@
             Пройдіть циклом по масиву. На кожному екземплярі класу MonthReport викличте метод render.
         */
 
-        let source = [
-            {
-                month: "Січень",
-                amount: 20,
-                users: ["Claudia Contreras", "Blair Hayden", "Montgomery Cohen"]
-            },
-            {
-                month: "Лютий",
-                amount: 140
-            },
-            {
-                month: "Березень",
-                amount: 115,
-                users: ["Blair Hayden", "Montgomery Cohen"]
-            }
-        ];
+        // let source = [
+        //     {
+        //         month: "Січень",
+        //         amount: 20,
+        //         users: ["Claudia Contreras", "Blair Hayden", "Montgomery Cohen"]
+        //     },
+        //     {
+        //         month: "Лютий",
+        //         amount: 140
+        //     },
+        //     {
+        //         month: "Березень",
+        //         amount: 115,
+        //         users: ["Blair Hayden", "Montgomery Cohen"]
+        //     }
+        // ];
 
         let template = document.querySelector("#monthReport").innerHTML;
         let output = document.querySelector("#output");
 
-        document.querySelector("button").addEventListener("click", function () {
-            for (let i = 0; i < source.length; i++) {
-                const monthData = source[i];
-                let html = Mustache.render(template, monthData);
-                output.insertAdjacentHTML("beforeend", html);
+        class MonthReport {
+            month;
+            amount;
+            users;
+            constructor(month,amount,users){
+             this.month = month;
+             this.amount = amount;
+             this.users = users;
             }
+            render(elm) {
+                let html = Mustache.render(template, this);
+                elm.insertAdjacentHTML("beforeend", html);
+            }
+
+        };
+
+        let source = [
+            new MonthReport ("Январь", 20, ["Claudia Contreras", "Blair Hayden", "Montgomery Cohen"]),
+            new MonthReport ("Февраль", 140, ["Claudia Contreras", "Blair Hayden", "Montgomery Cohen"]),
+            new MonthReport ("Март", 115, ["Blair Hayden", "Montgomery Cohen"]),
+        ];
+
+        document.querySelector("button").addEventListener("click", function () {
+            source.forEach(element => element.render(output));
         });
     </script>
 </body>
